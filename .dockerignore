@@ -1,0 +1,5 @@
+.planning/
+.git/
+.gitignore
+*.md
+static-server

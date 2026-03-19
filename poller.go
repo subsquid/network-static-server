@@ -19,8 +19,9 @@ type NetworkState struct {
 
 // Assignment represents a dataset assignment within a NetworkState.
 type Assignment struct {
-	FBURL string `json:"fb_url_v1"`
-	ID    string `json:"id"`
+	FBURL         string `json:"fb_url_v1"`
+	ID            string `json:"id"`
+	EffectiveFrom int64  `json:"effective_from"`
 }
 
 // fetchMetadata fetches and parses the upstream metadata JSON for a network.

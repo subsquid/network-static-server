@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -119,9 +120,14 @@ func downloadFile(ctx context.Context, client *http.Client, url, destPath string
 	reader := newIdleTimeoutReader(dlCtx, resp.Body, idleTimeout, dlCancel)
 	defer reader.Close()
 
-	if _, err := io.Copy(tmpFile, reader); err != nil {
+	start := time.Now()
+	written, err := io.Copy(tmpFile, reader)
+	if err != nil {
 		return fmt.Errorf("write data: %w", err)
 	}
+	elapsed := time.Since(start).Seconds()
+	mb := float64(written) / (1024 * 1024)
+	slog.Info("download complete", "mb", fmt.Sprintf("%.1f", mb), "seconds", fmt.Sprintf("%.1f", elapsed), "mb_per_s", fmt.Sprintf("%.1f", mb/elapsed))
 
 	// Flush to disk before rename
 	if err := tmpFile.Sync(); err != nil {

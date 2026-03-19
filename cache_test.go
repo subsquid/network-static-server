@@ -6,7 +6,7 @@ import (
 )
 
 func TestNetworkCache_GetReturnsNilForMissing(t *testing.T) {
-	nc := NewNetworkCache()
+	nc := NewNetworkCache(nil)
 	entry := nc.Get("nonexistent")
 	if entry != nil {
 		t.Fatalf("expected nil for missing network, got %+v", entry)
@@ -14,7 +14,7 @@ func TestNetworkCache_GetReturnsNilForMissing(t *testing.T) {
 }
 
 func TestNetworkCache_SetAndGet(t *testing.T) {
-	nc := NewNetworkCache()
+	nc := NewNetworkCache(nil)
 	state := &NetworkState{
 		Network: "testnet",
 		Assignment: Assignment{
@@ -40,7 +40,7 @@ func TestNetworkCache_SetAndGet(t *testing.T) {
 }
 
 func TestNetworkCache_GetReturnsCopy(t *testing.T) {
-	nc := NewNetworkCache()
+	nc := NewNetworkCache(nil)
 	state := &NetworkState{
 		Network: "testnet",
 		Assignment: Assignment{
@@ -73,7 +73,7 @@ func TestNetworkCache_GetReturnsCopy(t *testing.T) {
 }
 
 func TestNetworkCache_OverwriteEntry(t *testing.T) {
-	nc := NewNetworkCache()
+	nc := NewNetworkCache(nil)
 
 	state1 := &NetworkState{
 		Network: "testnet",
@@ -106,7 +106,7 @@ func TestNetworkCache_OverwriteEntry(t *testing.T) {
 }
 
 func TestNetworkCache_ConcurrentAccess(t *testing.T) {
-	nc := NewNetworkCache()
+	nc := NewNetworkCache(nil)
 
 	var wg sync.WaitGroup
 	start := make(chan struct{})

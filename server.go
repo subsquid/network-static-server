@@ -27,12 +27,24 @@ func newServer(cfg Config, cache *NetworkCache, client *http.Client) *Server {
 // within a segment. The root handler checks the path prefix and dispatches.
 func (s *Server) routes() *http.ServeMux {
 	mux := http.NewServeMux()
+	mux.HandleFunc("GET /ready", s.handleReady)
 	mux.HandleFunc("GET /data/{network}/{rest...}", s.handleDataFile)
 	// The metadata pattern /network-state-{name}.json cannot use ServeMux
 	// wildcards. Register at the root and filter by path prefix in the handler.
 	// ServeMux longest-match guarantees /data/ routes are tried first.
 	mux.HandleFunc("/", s.handleRoot)
 	return mux
+}
+
+// handleReady returns 200 when all networks have completed initial download,
+// 503 otherwise. Used as a Kubernetes readiness probe.
+func (s *Server) handleReady(w http.ResponseWriter, r *http.Request) {
+	if !s.cache.Ready() {
+		http.Error(w, "not ready", http.StatusServiceUnavailable)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	io.WriteString(w, "ok\n")
 }
 
 // handleRoot dispatches metadata requests matching /network-state-*.json

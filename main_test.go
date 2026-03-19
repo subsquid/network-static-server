@@ -285,7 +285,7 @@ func TestPollingLoop_DetectsChange(t *testing.T) {
 		IdleTimeout:  5 * time.Second,
 	}
 
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(nil)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 350*time.Millisecond)
 	defer cancel()
@@ -333,7 +333,7 @@ func TestPollingLoop_SkipsUnchanged(t *testing.T) {
 		IdleTimeout:  5 * time.Second,
 	}
 
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(nil)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 350*time.Millisecond)
 	defer cancel()
@@ -386,7 +386,7 @@ func TestPollingLoop_ContinuesOnFetchError(t *testing.T) {
 		IdleTimeout:  5 * time.Second,
 	}
 
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(nil)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 350*time.Millisecond)
 	defer cancel()
@@ -441,7 +441,7 @@ func TestPollingLoop_DeletesOldFile(t *testing.T) {
 		IdleTimeout:  5 * time.Second,
 	}
 
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(nil)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 350*time.Millisecond)
 	defer cancel()
@@ -493,7 +493,7 @@ func TestPollingLoop_UpdatesCache(t *testing.T) {
 		IdleTimeout:  5 * time.Second,
 	}
 
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(nil)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 250*time.Millisecond)
 	defer cancel()

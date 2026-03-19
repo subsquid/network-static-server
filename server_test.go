@@ -11,7 +11,7 @@ import (
 )
 
 func TestHandleMetadata_RewritesFBURL(t *testing.T) {
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(nil)
 	state := &NetworkState{
 		Network: "testnet",
 		Assignment: Assignment{
@@ -73,7 +73,7 @@ func TestHandleMetadata_ProxiesWhenNotReady(t *testing.T) {
 	}))
 	defer upstream.Close()
 
-	cache := NewNetworkCache() // empty -- no entries
+	cache := NewNetworkCache(nil) // empty -- no entries
 
 	cfg := Config{BaseURL: upstream.URL}
 	srv := newServer(cfg, cache, upstream.Client())
@@ -113,7 +113,7 @@ func TestHandleMetadata_ProxiesUpstreamError(t *testing.T) {
 	}))
 	defer upstream.Close()
 
-	cache := NewNetworkCache() // empty
+	cache := NewNetworkCache(nil) // empty
 
 	cfg := Config{BaseURL: upstream.URL}
 	srv := newServer(cfg, cache, upstream.Client())
@@ -142,7 +142,7 @@ func TestHandleDataFile_Streams(t *testing.T) {
 		t.Fatalf("failed to write temp file: %v", err)
 	}
 
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(nil)
 	state := &NetworkState{
 		Network: "testnet",
 		Assignment: Assignment{
@@ -178,7 +178,7 @@ func TestHandleDataFile_Streams(t *testing.T) {
 }
 
 func TestHandleDataFile_NotFoundWhenNoCacheEntry(t *testing.T) {
-	cache := NewNetworkCache() // empty
+	cache := NewNetworkCache(nil) // empty
 
 	srv := newServer(Config{}, cache, http.DefaultClient)
 	mux := srv.routes()
@@ -195,7 +195,7 @@ func TestHandleDataFile_NotFoundWhenNoCacheEntry(t *testing.T) {
 }
 
 func TestRoutes_MethodRestriction(t *testing.T) {
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(nil)
 	srv := newServer(Config{}, cache, http.DefaultClient)
 	mux := srv.routes()
 

@@ -89,7 +89,7 @@ func main() {
 		"listen_addr", cfg.ListenAddr,
 	)
 
-	cache := NewNetworkCache()
+	cache := NewNetworkCache(cfg.Networks)
 
 	// HTTP client with transport-level timeouts (no client.Timeout -- kills large downloads)
 	client := &http.Client{

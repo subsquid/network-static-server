@@ -12,6 +12,7 @@ jobs:
     with:
       image_name: subsquid/network-static-server
       push_latest: true
+      platforms: "linux/amd64"
     secrets:
       DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN }}
       DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
